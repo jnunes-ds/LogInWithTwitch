@@ -2,6 +2,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 import { getBottomSpace, getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { MotiView } from 'moti';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled(MotiView)`
   flex: 1;
@@ -53,6 +54,8 @@ export const Description = styled.Text`
 
 export const SignInButton = styled(RectButton)`
   margin-top: 40px;
+  margin-bottom: ${RFValue(48)}px;
+  height: ${RFValue(56)}px;
 
   background-color: ${props => props.theme.colors.purple};
   justify-content: center;
@@ -64,6 +67,8 @@ export const SignInButton = styled(RectButton)`
 
 export const SignInButtonIcon = styled.View`
   padding: 18px 16px;
+  width: ${RFValue(56)}px;
+  height: 100%;
   background-color: ${props => props.theme.colors.purple_darker};
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -72,7 +77,7 @@ export const SignInButtonIcon = styled.View`
 export const SignInButtonText = styled.Text`
   flex: 1;
   color: ${props => props.theme.colors.white};
-  font-size: 15px;
+  font-size: ${RFValue(15)}px;
   font-family: ${props => props.theme.fonts.regular};
   text-align: center;
 `;

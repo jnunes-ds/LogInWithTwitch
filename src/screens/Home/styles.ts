@@ -72,3 +72,6 @@ export const TopGamesTitle = styled.Text`
   font-size: 20px;
   font-family: ${props => props.theme.fonts.bold};
 `;
+
+
+
