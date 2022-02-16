@@ -1,6 +1,7 @@
-import { makeRedirectUri, revokeAsync, startAsync } from 'expo-auth-session';
+import { makeRedirectUri, revokeAsync, startAsync, useAuthRequest } from 'expo-auth-session';
 import React, { useEffect, createContext, useContext, useState, ReactNode } from 'react';
 import { generateRandom } from 'expo-auth-session/build/PKCE';
+import * as WebBrowser from 'expo-web-browser';
 
 import { api } from '../services/api';
 
@@ -40,6 +41,11 @@ function AuthProvider({ children }: AuthProviderData) {
 
   async function signIn() {
     try {
+      const { CLIENT_ID } = process.env;
+
+      useEffect(() => {
+        api.defaults.headers['clientID'] = CLIENT_ID;
+      }, []);
       // set isLoggingIn to true
 
       // REDIRECT_URI - create OAuth redirect URI using makeRedirectUri() with "useProxy" option set to true
