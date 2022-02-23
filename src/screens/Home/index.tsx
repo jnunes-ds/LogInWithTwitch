@@ -53,14 +53,10 @@ export function Home() {
 
   const handleSignOut = async () => {
     try {
-      
-      // try to call and wait signOut
+      await signOut();
     } catch (err: any) {
-      const e = new Error(err);
-      console.log(e.message);
       Alert.alert('Erro signOut:', 'Ocorreu um erro ao tentar deslogar do app!');
     }
-    // if fails, display an Alert with the title "Erro SignOut" and message "Ocorreu um erro ao tentar se deslogar do app"
   };
 
   async function getTopGames() {
