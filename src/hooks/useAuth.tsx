@@ -12,6 +12,16 @@ interface User {
   profile_image_url: string;
 }
 
+interface UserResponseData extends User {
+  login: string;
+  type: string;
+  broadcaster_type: string;
+  description: string;
+  offline_image_url: string;
+  view_count: string;
+  created_at: string;
+}
+
 interface AuthContextData {
   user: User;
   isLoggingOut: boolean;
@@ -39,8 +49,6 @@ function AuthProvider({ children }: AuthProviderData) {
 
   const { CLIENT_ID } = process.env;
 
-      
-
   async function signIn() {
     try {
       setIsLoggingIn(true);
@@ -59,27 +67,36 @@ function AuthProvider({ children }: AuthProviderData) {
       `&force_verify=${FORCE_VERIFY}` +
       `&state=${STATE}`;
 
+      const authResponse = await startAsync({ authUrl });
+
+      if (authResponse.type === 'success' && authResponse.params.error !== 'access_denied') {
+        if (authResponse.params.state !== STATE) throw new Error('Invalid state value!');
+         
+        api.defaults.headers.authorization = `Bearer ${authResponse.params.access_token}`;
   
+        const userResponse = await api.get('/users');
+  
+        const { 
+          id, 
+          display_name, 
+          email, 
+          profile_image_url 
+        } = userResponse.data.data[0] as UserResponseData;
 
-      // call startAsync with authUrl
+        setUser({
+          id,
+          display_name,
+          email,
+          profile_image_url
+        })
 
-      // verify if startAsync response.type equals "success" and response.params.error differs from "access_denied"
-      // if true, do the following:
+        setUserToken(authResponse.params.access_token);
+      }
 
-        // verify if startAsync response.params.state differs from STATE
-        // if true, do the following:
-          // throw an error with message "Invalid state value"
-
-        // add access_token to request's authorization header
-
-        // call Twitch API's users route
-
-        // set user state with response from Twitch API's route "/users"
-        // set userToken state with response's access_token from startAsync
     } catch (error) {
-      // throw an error
+      throw new Error();
     } finally {
-      // set isLoggingIn to false
+      setIsLoggingIn(false);
     }
   }
 
