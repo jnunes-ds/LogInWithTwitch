@@ -4,24 +4,27 @@ import { generateRandom } from 'expo-auth-session/build/PKCE';
 import * as WebBrowser from 'expo-web-browser';
 
 import { api } from '../services/api';
-
-interface User {
-  id: number;
-  display_name: string;
-  email: string;
-  profile_image_url: string;
-}
-
-interface UserResponseData extends User {
+interface UserResponseData {
   login: string;
   type: string;
   broadcaster_type: string;
   description: string;
   offline_image_url: string;
   view_count: string;
-  created_at: string;
+  created_at: Date;
+  id: number;
+  display_name: string;
+  email: string;
+  profile_image_url: string;
 }
 
+interface User extends Pick<
+  UserResponseData, 
+  'id' 
+  | 'display_name' 
+  | 'email'
+  | 'profile_image_url'
+> {};
 interface AuthContextData {
   user: User;
   isLoggingOut: boolean;
