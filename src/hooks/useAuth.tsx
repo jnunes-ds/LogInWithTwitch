@@ -62,6 +62,8 @@ function AuthProvider({ children }: AuthProviderData) {
       const FORCE_VERIFY = true;
       const STATE = generateRandom(30);
 
+      console.log(`REDIRECT_URI: ${REDIRECT_URI}`);
+
       const authUrl = twitchEndpoints.authorization + 
       `?client_id=${CLIENT_ID}` + 
       `&redirect_uri=${REDIRECT_URI}` + 
