@@ -25,10 +25,15 @@ import {
 export function SignIn() {
   const { signIn, isLoggingIn } = useAuth();
   const theme = useTheme();
+  const { white } = theme.colors;
 
   // creates a function to handle sign in
-  const handleSignIn = useCallback(() => {
-    console.log('LogIn ativado!');
+  const handleSignIn = useCallback(async () => {
+    try {
+      await signIn();
+    } catch (error) {
+      Alert.alert('Error SignIn:', 'Ocorreu um erro ao tentar entrar efetuar o signIn!')
+    }
   }, []);
   
     // try to call and wait signIn
@@ -68,11 +73,26 @@ export function SignIn() {
 
           <SignInButton onPress={handleSignIn}>
             <SignInButtonIcon>
-              <TwitchIcon />
+              {
+                isLoggingIn
+                ? (
+                  <ActivityIndicator 
+                    size={20}
+                    color={white}
+                  />
+                ) : (
+                  <TwitchIcon />
+                )
+              }
             </SignInButtonIcon>
 
             <SignInButtonText>
-              Entrar com Twitch
+              {
+                isLoggingIn
+                ? 'Entrando'
+                : 'Entrar com Twitch'
+
+              }
             </SignInButtonText>
           </SignInButton>
         </LoginInfo>
